@@ -8,5 +8,4 @@ data class Trip(
     val coordinates: MutableList<Coordinate>,
     val date: Date,
     val isForBusiness: Boolean
-) {
-}
+)
