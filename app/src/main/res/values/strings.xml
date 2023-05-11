@@ -4,4 +4,5 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Location</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="description_map_view">Map</string>
 </resources>
