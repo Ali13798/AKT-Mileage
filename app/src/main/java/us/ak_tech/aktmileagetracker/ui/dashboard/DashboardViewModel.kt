@@ -8,6 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.Coordinate
 import us.ak_tech.aktmileagetracker.Trip
+import java.time.LocalDateTime
 import java.util.*
 
 class DashboardViewModel : ViewModel() {
@@ -43,7 +44,8 @@ class DashboardViewModel : ViewModel() {
             resultTrips += Trip(
                 UUID.randomUUID(),
                 resultCoords,
-                Date(),
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(115),
                 true
             )
         }
