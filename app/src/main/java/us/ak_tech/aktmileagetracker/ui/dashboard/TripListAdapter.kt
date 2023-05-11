@@ -2,6 +2,7 @@ package us.ak_tech.aktmileagetracker.ui.dashboard
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentTripListItemBinding
@@ -13,6 +14,13 @@ class TripHolder(
     fun bind(trip: Trip) {
         binding.textView2.text = trip.date.toString()
         binding.textView9.text = trip.coordinates[0].toString()
+        binding.root.setOnClickListener {
+            Toast.makeText(
+                binding.root.context,
+                "${trip.date.toString()} clicked!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }
 
