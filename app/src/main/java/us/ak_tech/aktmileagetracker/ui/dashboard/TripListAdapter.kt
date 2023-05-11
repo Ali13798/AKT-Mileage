@@ -23,11 +23,17 @@ class TripHolder(
                 trip.startDate.format(dateFormatter)
             else
                 "${trip.startDate.format(dateFormatter)} - ${trip.endDate.format(dateFormatter)}"
+        val startAddressText =
+            "${trip.coordinates[0].x}, ${trip.coordinates[0].y}"
+        val destinationAddressText =
+            "${trip.coordinates[trip.coordinates.size - 1].x}, ${trip.coordinates[trip.coordinates.size - 1].y}"
 
         binding.tvDate.text = tvDateText
         binding.tvStartTime.text = trip.startDate.format(hourFormatter)
         binding.tvEndTime.text = trip.endDate.format(hourFormatter)
-        binding.tvDistance.text = trip.coordinates[0].toString()
+        binding.tvStartAddress.text = startAddressText
+        binding.tvDestinationAddress.text = destinationAddressText
+        binding.tvCategory.text = if (trip.isForBusiness) "Business" else "Personal"
         binding.root.setOnClickListener {
             Toast.makeText(
                 binding.root.context,

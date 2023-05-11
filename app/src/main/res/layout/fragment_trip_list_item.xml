@@ -19,6 +19,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tvCategory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:textSize="20sp"
         tools:text="Date xx/xx/xxxx" />
 
     <TextView
@@ -28,6 +29,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:textSize="20sp"
         tools:text="Category" />
 
     <TextView
@@ -38,6 +40,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCategory"
+        android:textSize="20sp"
         tools:text="Cost" />
 
     <TextView
@@ -49,6 +52,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tvCost"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDate"
+        android:textSize="20sp"
         tools:text="Distance" />
 
 
@@ -76,6 +80,7 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:textSize="20sp"
             tools:text="Start time" />
 
         <TextView
@@ -85,6 +90,7 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvStartTime"
+            android:textSize="20sp"
             tools:text="End time" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -92,6 +98,7 @@
         android:layout_width="0dp"
         android:layout_height="63dp"
         android:layout_marginTop="1dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
         app:layout_constraintTop_toBottomOf="@+id/mapView">
@@ -104,6 +111,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:textSize="20sp"
+            android:maxLines="1"
             tools:text="Address" />
 
         <TextView
@@ -115,6 +124,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvStartAddress"
+            android:textSize="20sp"
+            android:maxLines="1"
             tools:text="Address" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
