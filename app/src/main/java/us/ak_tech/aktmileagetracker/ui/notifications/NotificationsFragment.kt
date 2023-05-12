@@ -33,6 +33,8 @@ class NotificationsFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private lateinit var locationManager: LocationManager
 
     var coords: LatLng? = null
+    private val args: NotificationsFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
