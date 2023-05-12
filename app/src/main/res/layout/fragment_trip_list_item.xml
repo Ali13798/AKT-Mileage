@@ -56,14 +56,14 @@
         tools:text="Distance" />
 
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:contentDescription="@string/description_map_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDistance" />
+    <!--    <com.google.android.gms.maps.MapView-->
+    <!--        android:id="@+id/mapView"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="150dp"-->
+    <!--        android:contentDescription="@string/description_map_view"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/tvDistance" />-->
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapView">
+        app:layout_constraintTop_toBottomOf="@+id/tvDistance">
 
         <TextView
             android:id="@+id/tvStartTime"
@@ -101,7 +101,7 @@
         android:layout_marginStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
-        app:layout_constraintTop_toBottomOf="@+id/mapView">
+        app:layout_constraintTop_toBottomOf="@+id/tvCost">
 
         <TextView
             android:id="@+id/tvStartAddress"

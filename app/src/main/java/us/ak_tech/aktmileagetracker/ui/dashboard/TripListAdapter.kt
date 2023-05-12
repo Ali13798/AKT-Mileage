@@ -17,17 +17,16 @@ class TripHolder(
     fun bind(trip: Trip) {
         val dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
         val hourFormatter = DateTimeFormatter.ofPattern("HH:mm")
+        val startCoordinates = trip.coordinates[0]
+        val endCoordinates = trip.coordinates[trip.coordinates.size - 1]
         val duration = Duration.between(trip.startDate, trip.endDate)
         val tvDateText =
             if (duration.toHours() < 24.0 && trip.endDate.hour > trip.startDate.hour)
                 trip.startDate.format(dateFormatter)
             else
                 "${trip.startDate.format(dateFormatter)} - ${trip.endDate.format(dateFormatter)}"
-        val startAddressText =
-            "${trip.coordinates[0].x}, ${trip.coordinates[0].y}"
-        val destinationAddressText =
-            "${trip.coordinates[trip.coordinates.size - 1].x}, ${trip.coordinates[trip.coordinates.size - 1].y}"
-
+        val startAddressText = "${startCoordinates.x}, ${startCoordinates.y}"
+        val destinationAddressText = "${endCoordinates.x}, ${endCoordinates.y}"
         binding.tvDate.text = tvDateText
         binding.tvStartTime.text = trip.startDate.format(hourFormatter)
         binding.tvEndTime.text = trip.endDate.format(hourFormatter)
