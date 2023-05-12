@@ -54,7 +54,7 @@ class DashboardFragment : Fragment() {
                 val trips = dashboardViewModel.loadTrips()
                 binding.rcvTrips.adapter = TripListAdapter(trips) { tripId ->
                     findNavController().navigate(
-                        DashboardFragmentDirections.showCrimeDetails(tripId)
+                        R.id.show_crime_details
                     )
                 }
             }
