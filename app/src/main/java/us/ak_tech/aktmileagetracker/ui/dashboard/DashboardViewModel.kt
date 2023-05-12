@@ -8,6 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.Coordinate
 import us.ak_tech.aktmileagetracker.Trip
+//import us.ak_tech.aktmileagetracker.TripsRepository
 import java.time.LocalDateTime
 import java.util.*
 
@@ -20,6 +21,7 @@ class DashboardViewModel : ViewModel() {
 
     val coordinates = mutableListOf<Coordinate>()
     val trips = mutableListOf<Trip>()
+//    val tripsRepository = TripsRepository.get()
 
     init {
         viewModelScope.launch {
@@ -29,20 +31,21 @@ class DashboardViewModel : ViewModel() {
 
     suspend fun loadTrips(): MutableList<Trip> {
         delay(100)
-        val resultCoords = mutableListOf<Coordinate>()
         val resultTrips = mutableListOf<Trip>()
         for (i in 0..5) {
-            val coordinate = Coordinate(
-                i,
-                (i + 5) * 1.0,
-                (i + 10) * 2.0
-            )
-            resultCoords += coordinate
-        }
-
-        for (i in 0..5) {
+            val resultCoords = mutableListOf<Coordinate>()
+            val id = UUID.randomUUID()
+            for (j in 0..5) {
+                val coordinate = Coordinate(
+                    id,
+                    j,
+                    (i + 5) * (j + 2) * 1.0,
+                    (i + 10) + (j * 2) * 2.0
+                )
+                resultCoords += coordinate
+            }
             resultTrips += Trip(
-                UUID.randomUUID(),
+                id,
                 resultCoords,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(115),
@@ -50,5 +53,6 @@ class DashboardViewModel : ViewModel() {
             )
         }
         return resultTrips
+//        return tripsRepository.getTrips()
     }
 }
