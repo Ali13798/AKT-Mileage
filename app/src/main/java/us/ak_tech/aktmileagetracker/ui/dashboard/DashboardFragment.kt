@@ -11,8 +11,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
+import us.ak_tech.aktmileagetracker.R
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentDashboardBinding
 
@@ -23,6 +25,7 @@ class DashboardFragment : Fragment() {
     private lateinit var trip: Trip
     private val dashboardViewModel: DashboardViewModel by viewModels()
 
+//    private val args:
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +52,9 @@ class DashboardFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 val trips = dashboardViewModel.loadTrips()
-                binding.rcvTrips.adapter = TripListAdapter(trips)
+                binding.rcvTrips.adapter = TripListAdapter(trips) {
+                    findNavController().navigate(R.id.show_crime_details)
+                }
             }
         }
     }
