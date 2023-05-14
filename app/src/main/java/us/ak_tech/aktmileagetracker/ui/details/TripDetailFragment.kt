@@ -16,7 +16,9 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -26,6 +28,11 @@ import us.ak_tech.aktmileagetracker.databinding.FragmentTripDetailsBinding
 class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var _binding: FragmentTripDetailsBinding? = null
     private val binding get() = _binding!!
+
+    private val args: TripDetailFragmentArgs by navArgs()
+    private val crimeDetailViewModel: TripDetailViewModel by viewModels {
+        CrimeDetailViewModelFactory(args.tripId)
+    }
 
     private var map: GoogleMap? = null
     private var isLocationPermissionGranted = false
