@@ -8,4 +8,7 @@
     <string name="cb_business_trip">Business trip</string>
     <string name="cb_is_business">Business</string>
     <string name="btn_new_trip">New Trip</string>
+    <string name="map_description">Map</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
 </resources>
