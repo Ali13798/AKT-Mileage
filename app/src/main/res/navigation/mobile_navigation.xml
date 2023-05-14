@@ -38,7 +38,7 @@
         android:name="us.ak_tech.aktmileagetracker.DatePickerFragment"
         android:label="DatePickerFragment">
         <argument
-            android:name="tripId"
-            app:argType="java.util.UUID" />
+            android:name="tripDate"
+            app:argType="java.time.LocalDateTime" />
     </dialog>
 </navigation>

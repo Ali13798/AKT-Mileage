@@ -11,16 +11,14 @@ import us.ak_tech.aktmileagetracker.TripsRepository
 import java.util.UUID
 
 
-//class TripDetailViewModel(tripId: UUID) : ViewModel() {
-class TripDetailViewModel() : ViewModel() {
+class TripDetailViewModel : ViewModel() {
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"
     }
     val text: LiveData<String> = _text
-    var a = 0
 
-//    private val _tripId = MutableLiveData<UUID>()
-//    var tripId: LiveData<UUID> = _tripId
+    private val _tripId = MutableLiveData<UUID>()
+    var tripId: LiveData<UUID> = _tripId
 
     private val tripRepository = TripsRepository.get()
 
@@ -29,7 +27,7 @@ class TripDetailViewModel() : ViewModel() {
 
 //    init {
 //        viewModelScope.launch {
-//            _trip.value = tripRepository.getTrip(id = tripId)
+//            _trip.value = tripRepository.getTrip(id = tripId.value!!)
 //        }
 //    }
 
@@ -41,9 +39,9 @@ class TripDetailViewModel() : ViewModel() {
         }
     }
 
-//    fun setTripId(id: UUID) {
-//        _tripId.value = id
-//    }
+    fun setTripId(id: UUID) {
+        _tripId.value = id
+    }
 
     fun setText(msg: String) {
         _text.value = msg
@@ -51,14 +49,6 @@ class TripDetailViewModel() : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-
         trip.value?.let { tripRepository.updateTrip(it) }
     }
-
 }
-
-//class TripDetailViewModelFactory(private val tripId: UUID) : ViewModelProvider.Factory {
-//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//        return TripDetailViewModel(tripId) as T
-//    }
-//}

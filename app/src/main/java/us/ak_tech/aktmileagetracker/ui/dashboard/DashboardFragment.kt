@@ -60,9 +60,7 @@ class DashboardFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 val trips = dashboardViewModel.loadTrips()
                 binding.rcvTrips.adapter = TripListAdapter(trips) { tripId ->
-                    val sharedViewModel: TripDetailViewModel by activityViewModels()
-                    sharedViewModel.setText("TEST")
-                    findNavController().navigate(R.id.show_crime_details)
+                    findNavController().navigate(DashboardFragmentDirections.showCrimeDetails(tripId))
                 }
             }
         }

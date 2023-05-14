@@ -21,6 +21,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -29,16 +30,14 @@ import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.R
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentTripDetailsBinding
+import us.ak_tech.aktmileagetracker.ui.dashboard.DashboardFragmentDirections
 
 class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var _binding: FragmentTripDetailsBinding? = null
     private val binding get() = _binding!!
 
     private val args: TripDetailFragmentArgs by navArgs()
-//    private val tripDetailViewModel: TripDetailViewModel by viewModels {
-//        TripDetailViewModelFactory(args.tripId)
-//    }
-
+    private val tripDetailViewModel: TripDetailViewModel by viewModels()
     private var map: GoogleMap? = null
     private var isLocationPermissionGranted = false
 
@@ -56,18 +55,10 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
             ViewModelProvider(this).get(TripDetailViewModel::class.java)
 
         _binding = FragmentTripDetailsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
         val textView: TextView = binding.textNotifications
         tripDetailViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
-
-        binding.textNotifications.text = "TESTING"
-        if (tripDetailViewModel.a == 0) tripDetailViewModel.setText("WHAT")
-        tripDetailViewModel.a++
-        Log.i("THISISMYTAG", tripDetailViewModel.text.value.toString())
-        Log.i("THISISMYTAG", tripDetailViewModel.a.toString())
 
         val mapFragment = SupportMapFragment.newInstance()
         parentFragmentManager
@@ -75,30 +66,30 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
             .add(R.id.mapView2, mapFragment)
             .commit()
         mapFragment.getMapAsync(this)
-        return root
+
+        tripDetailViewModel.setTripId(args.tripId)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            cbIsBusiness.setOnCheckedChangeListener { _, isChecked ->
+                tripDetailViewModel.updateTrip { oldTrip ->
+                    oldTrip.copy(isForBusiness = isChecked)
+                }
+            }
+        }
 
-//        binding.apply {
-//            cbIsBusiness.setOnCheckedChangeListener { _, isChecked ->
-//                tripDetailViewModel.updateTrip { oldTrip ->
-//                    oldTrip.copy(isForBusiness = isChecked)
-//                }
-//            }
-//        }
-
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                tripDetailViewModel.trip.collect { trip ->
-//                    trip?.let {
-//                        updateUi(it)
-//                    }
-//                }
-//            }
-//        }
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripDetailViewModel.trip.collect { trip ->
+                    trip?.let {
+                        updateUi(it)
+                    }
+                }
+            }
+        }
     }
 
     private fun updateUi(trip: Trip) {
@@ -106,12 +97,24 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
             if (text4.text.toString() != trip.id.toString()) {
                 text4.text = trip.id.toString()
             }
+            btnStartDate.text = trip.startDate.toString()
+            btnStartDate.setOnClickListener {
+                findNavController().navigate(
+                    DashboardFragmentDirections.selectDate(trip.startDate)
+                )
+            }
+            btnEndDate.text = trip.endDate.toString()
+            btnEndDate.setOnClickListener {
+                findNavController().navigate(
+                    DashboardFragmentDirections.selectDate(trip.endDate)
+                )
+            }
+            cbIsBusiness.isChecked = trip.isForBusiness
         }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-//        getLocationPermission()
     }
 
     private fun getLocationPermission() {

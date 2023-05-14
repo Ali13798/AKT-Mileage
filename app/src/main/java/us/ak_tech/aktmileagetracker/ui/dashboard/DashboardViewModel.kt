@@ -33,30 +33,7 @@ class DashboardViewModel : ViewModel() {
         tripsRepository.addTrip(trip)
     }
 
-    suspend fun loadTrips(): MutableList<Trip> {
-        delay(100)
-        val resultTrips = mutableListOf<Trip>()
-        for (i in 0..5) {
-            val resultCoords = mutableListOf<Coordinate>()
-            val id = UUID.randomUUID()
-            for (j in 0..5) {
-                val coordinate = Coordinate(
-                    id,
-                    j,
-                    (i + 5) * (j + 2) * 1.0,
-                    (i + 10) + (j * 2) * 2.0
-                )
-                resultCoords += coordinate
-            }
-            resultTrips += Trip(
-                id,
-                resultCoords,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(115),
-                true
-            )
-        }
-        return resultTrips
-//        return tripsRepository.getTrips()
+    suspend fun loadTrips(): List<Trip> {
+        return tripsRepository.getTrips()
     }
 }
