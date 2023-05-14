@@ -1,4 +1,4 @@
-package us.ak_tech.aktmileagetracker.ui.notifications
+package us.ak_tech.aktmileagetracker.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import java.util.UUID
 
 
-class NotificationsViewModel : ViewModel() {
+class TripDetailViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"

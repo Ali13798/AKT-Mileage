@@ -1,4 +1,4 @@
-package us.ak_tech.aktmileagetracker.ui.notifications
+package us.ak_tech.aktmileagetracker.ui.details
 
 import android.Manifest
 import android.content.Context
@@ -21,10 +21,10 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import us.ak_tech.aktmileagetracker.R
-import us.ak_tech.aktmileagetracker.databinding.FragmentNotificationsBinding
+import us.ak_tech.aktmileagetracker.databinding.FragmentTripDetailsBinding
 
-class NotificationsFragment : Fragment(), OnMapReadyCallback, LocationListener {
-    private var _binding: FragmentNotificationsBinding? = null
+class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
+    private var _binding: FragmentTripDetailsBinding? = null
     private val binding get() = _binding!!
 
     private var map: GoogleMap? = null
@@ -40,22 +40,22 @@ class NotificationsFragment : Fragment(), OnMapReadyCallback, LocationListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        val tripDetailViewModel =
+            ViewModelProvider(this).get(TripDetailViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentTripDetailsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
+        tripDetailViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
 
         binding.textNotifications.text = "TESTING"
-        if (notificationsViewModel.a == 0) notificationsViewModel.setText("WHAT")
-        notificationsViewModel.a++
-        Log.i("THISISMYTAG", notificationsViewModel.text.value.toString())
-        Log.i("THISISMYTAG", notificationsViewModel.a.toString())
+        if (tripDetailViewModel.a == 0) tripDetailViewModel.setText("WHAT")
+        tripDetailViewModel.a++
+        Log.i("THISISMYTAG", tripDetailViewModel.text.value.toString())
+        Log.i("THISISMYTAG", tripDetailViewModel.a.toString())
 
         val mapFragment = SupportMapFragment.newInstance()
         parentFragmentManager

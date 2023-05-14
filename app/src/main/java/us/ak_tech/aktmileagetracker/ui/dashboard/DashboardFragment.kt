@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.R
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentDashboardBinding
-import us.ak_tech.aktmileagetracker.ui.notifications.NotificationsViewModel
+import us.ak_tech.aktmileagetracker.ui.details.TripDetailViewModel
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
@@ -55,7 +55,7 @@ class DashboardFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 val trips = dashboardViewModel.loadTrips()
                 binding.rcvTrips.adapter = TripListAdapter(trips) { tripId ->
-                    val sharedViewModel: NotificationsViewModel by activityViewModels()
+                    val sharedViewModel: TripDetailViewModel by activityViewModels()
                     sharedViewModel.setText("TEST")
                     findNavController().navigate(R.id.show_crime_details)
                 }
