@@ -1,9 +1,7 @@
 package us.ak_tech.aktmileagetracker.ui.dashboard
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,7 +25,10 @@ class DashboardFragment : Fragment() {
     private lateinit var trip: Trip
     private val dashboardViewModel: DashboardViewModel by viewModels()
 
-//    private val args:
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,6 +62,11 @@ class DashboardFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.fragment_dashboard, menu)
     }
 
     override fun onDestroyView() {
