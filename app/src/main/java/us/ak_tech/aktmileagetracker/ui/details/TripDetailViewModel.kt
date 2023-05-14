@@ -1,17 +1,16 @@
 package us.ak_tech.aktmileagetracker.ui.details
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.TripsRepository
 import java.util.UUID
 
 
-class TripDetailViewModel : ViewModel() {
+class TripDetailViewModel(tripIdDb: UUID) : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"
@@ -27,6 +26,12 @@ class TripDetailViewModel : ViewModel() {
     private val _trip: MutableStateFlow<Trip?> = MutableStateFlow(null)
     val trip: StateFlow<Trip?> = _trip.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            _trip.value = tripRepository.getTrip(id = tripIdDb)
+        }
+    }
+
     fun setTripId(id: UUID) {
         _tripId.value = id
     }
@@ -34,5 +39,10 @@ class TripDetailViewModel : ViewModel() {
     fun setText(msg: String) {
         _text.value = msg
     }
+}
 
+class CrimeDetailViewModelFactory(private val tripIdDb: UUID) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return TripDetailViewModel(tripIdDb) as T
+    }
 }
