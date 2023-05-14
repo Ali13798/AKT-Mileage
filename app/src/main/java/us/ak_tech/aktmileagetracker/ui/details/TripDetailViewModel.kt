@@ -48,6 +48,17 @@ class TripDetailViewModel(tripIdDb: UUID) : ViewModel() {
     fun setText(msg: String) {
         _text.value = msg
     }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        viewModelScope.launch {
+            trip.value?.let {
+                tripRepository.updateTrip(it)
+            }
+        }
+    }
+
 }
 
 class CrimeDetailViewModelFactory(private val tripIdDb: UUID) : ViewModelProvider.Factory {
