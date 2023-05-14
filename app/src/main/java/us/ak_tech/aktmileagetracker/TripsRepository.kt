@@ -33,6 +33,10 @@ class TripsRepository private constructor(
         }
     }
 
+    suspend fun addTrip(trip: Trip) {
+        db.tripDao().addTrip(trip)
+    }
+
     companion object {
         private var INSTANCE: TripsRepository? = null
 

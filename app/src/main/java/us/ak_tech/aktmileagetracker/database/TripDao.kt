@@ -1,6 +1,7 @@
 package us.ak_tech.aktmileagetracker.database
 
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import us.ak_tech.aktmileagetracker.Trip
@@ -16,4 +17,7 @@ interface TripDao {
 
     @Update
     suspend fun updateTrip(trip: Trip)
+
+    @Insert
+    suspend fun addTrip(trip: Trip)
 }

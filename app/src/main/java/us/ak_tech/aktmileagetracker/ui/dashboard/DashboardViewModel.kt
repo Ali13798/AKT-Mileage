@@ -8,7 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.Coordinate
 import us.ak_tech.aktmileagetracker.Trip
-//import us.ak_tech.aktmileagetracker.TripsRepository
+import us.ak_tech.aktmileagetracker.TripsRepository
 import java.time.LocalDateTime
 import java.util.*
 
@@ -21,12 +21,16 @@ class DashboardViewModel : ViewModel() {
 
     val coordinates = mutableListOf<Coordinate>()
     val trips = mutableListOf<Trip>()
-//    val tripsRepository = TripsRepository.get()
+    val tripsRepository = TripsRepository.get()
 
     init {
         viewModelScope.launch {
             trips += loadTrips()
         }
+    }
+
+    suspend fun addTrip(trip: Trip) {
+        tripsRepository.addTrip(trip)
     }
 
     suspend fun loadTrips(): MutableList<Trip> {
