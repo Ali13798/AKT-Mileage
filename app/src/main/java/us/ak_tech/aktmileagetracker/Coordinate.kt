@@ -4,9 +4,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.UUID
 
-@Entity
+@Entity(tableName = "Coordinates")
 data class Coordinate(
-    @PrimaryKey val tripId: UUID,
+    @PrimaryKey
+    val tripId: UUID,
     val index: Int,
     val x: Double,
     val y: Double

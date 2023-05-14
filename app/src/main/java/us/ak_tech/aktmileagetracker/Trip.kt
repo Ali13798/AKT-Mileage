@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 import java.util.*
 
-@Entity
+@Entity(tableName = "Trips")
 data class Trip(
     @PrimaryKey val id: UUID,
     val coordinates: MutableList<Coordinate>,

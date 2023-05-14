@@ -9,7 +9,7 @@ import us.ak_tech.aktmileagetracker.database.TripDatabase
 import java.util.*
 
 
-private const val DB_NAME = "trip-database"
+private const val DB_NAME = "trip-database.db"
 
 class TripsRepository private constructor(
     context: Context,
@@ -21,7 +21,6 @@ class TripsRepository private constructor(
             TripDatabase::class.java,
             DB_NAME
         )
-        .createFromAsset(DB_NAME)
         .build()
 
     suspend fun getTrips(): List<Trip> = db.tripDao().getTrips()
