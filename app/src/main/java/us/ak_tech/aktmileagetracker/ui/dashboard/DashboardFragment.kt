@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.R
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentDashboardBinding
+import us.ak_tech.aktmileagetracker.ui.notifications.NotificationsViewModel
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
@@ -53,6 +55,8 @@ class DashboardFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 val trips = dashboardViewModel.loadTrips()
                 binding.rcvTrips.adapter = TripListAdapter(trips) { tripId ->
+                    val sharedViewModel: NotificationsViewModel by activityViewModels()
+                    sharedViewModel.setText("TEST")
                     findNavController().navigate(R.id.show_crime_details)
                 }
             }

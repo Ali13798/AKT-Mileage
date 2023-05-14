@@ -7,6 +7,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +51,12 @@ class NotificationsFragment : Fragment(), OnMapReadyCallback, LocationListener {
             textView.text = it
         }
 
+        binding.textNotifications.text = "TESTING"
+        if (notificationsViewModel.a == 0) notificationsViewModel.setText("WHAT")
+        notificationsViewModel.a++
+        Log.i("THISISMYTAG", notificationsViewModel.text.value.toString())
+        Log.i("THISISMYTAG", notificationsViewModel.a.toString())
+
         val mapFragment = SupportMapFragment.newInstance()
         parentFragmentManager
             .beginTransaction()
@@ -61,7 +68,7 @@ class NotificationsFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        getLocationPermission()
+//        getLocationPermission()
     }
 
     private fun getLocationPermission() {
