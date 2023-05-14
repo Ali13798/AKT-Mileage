@@ -52,11 +52,7 @@ class TripDetailViewModel(tripIdDb: UUID) : ViewModel() {
     override fun onCleared() {
         super.onCleared()
 
-        viewModelScope.launch {
-            trip.value?.let {
-                tripRepository.updateTrip(it)
-            }
-        }
+        trip.value?.let { tripRepository.updateTrip(it) }
     }
 
 }

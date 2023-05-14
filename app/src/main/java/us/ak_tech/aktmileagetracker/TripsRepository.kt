@@ -2,13 +2,19 @@ package us.ak_tech.aktmileagetracker
 
 import android.content.Context
 import androidx.room.Room
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.database.TripDatabase
 import java.util.*
 
 
 private const val DB_NAME = "trip-database"
 
-class TripsRepository private constructor(context: Context) {
+class TripsRepository private constructor(
+    context: Context,
+    private val coroutineScope: CoroutineScope = GlobalScope
+) {
     private val db: TripDatabase = Room
         .databaseBuilder(
             context.applicationContext,
@@ -21,8 +27,10 @@ class TripsRepository private constructor(context: Context) {
     suspend fun getTrips(): List<Trip> = db.tripDao().getTrips()
     suspend fun getTrip(id: UUID): Trip = db.tripDao().getTrip(id)
 
-    suspend fun updateTrip(trip: Trip) {
-        db.tripDao().updateTrip(trip)
+    fun updateTrip(trip: Trip) {
+        coroutineScope.launch {
+            db.tripDao().updateTrip(trip)
+        }
     }
 
     companion object {
