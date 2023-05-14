@@ -11,27 +11,27 @@ import us.ak_tech.aktmileagetracker.TripsRepository
 import java.util.UUID
 
 
-class TripDetailViewModel(tripIdDb: UUID) : ViewModel() {
-
+//class TripDetailViewModel(tripId: UUID) : ViewModel() {
+class TripDetailViewModel() : ViewModel() {
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"
     }
     val text: LiveData<String> = _text
     var a = 0
 
-    private val _tripId = MutableLiveData<UUID>()
-    var tripId: LiveData<UUID> = _tripId
+//    private val _tripId = MutableLiveData<UUID>()
+//    var tripId: LiveData<UUID> = _tripId
 
     private val tripRepository = TripsRepository.get()
 
     private val _trip: MutableStateFlow<Trip?> = MutableStateFlow(null)
     val trip: StateFlow<Trip?> = _trip.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            _trip.value = tripRepository.getTrip(id = tripIdDb)
-        }
-    }
+//    init {
+//        viewModelScope.launch {
+//            _trip.value = tripRepository.getTrip(id = tripId)
+//        }
+//    }
 
     fun updateTrip(onUpdate: (Trip) -> Trip) {
         _trip.update { oldTrip ->
@@ -41,9 +41,9 @@ class TripDetailViewModel(tripIdDb: UUID) : ViewModel() {
         }
     }
 
-    fun setTripId(id: UUID) {
-        _tripId.value = id
-    }
+//    fun setTripId(id: UUID) {
+//        _tripId.value = id
+//    }
 
     fun setText(msg: String) {
         _text.value = msg
@@ -57,8 +57,8 @@ class TripDetailViewModel(tripIdDb: UUID) : ViewModel() {
 
 }
 
-class CrimeDetailViewModelFactory(private val tripIdDb: UUID) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return TripDetailViewModel(tripIdDb) as T
-    }
-}
+//class TripDetailViewModelFactory(private val tripId: UUID) : ViewModelProvider.Factory {
+//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//        return TripDetailViewModel(tripId) as T
+//    }
+//}

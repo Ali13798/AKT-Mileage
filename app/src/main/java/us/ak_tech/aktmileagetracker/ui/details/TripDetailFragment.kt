@@ -35,9 +35,9 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private val binding get() = _binding!!
 
     private val args: TripDetailFragmentArgs by navArgs()
-    private val crimeDetailViewModel: TripDetailViewModel by viewModels {
-        CrimeDetailViewModelFactory(args.tripId)
-    }
+//    private val tripDetailViewModel: TripDetailViewModel by viewModels {
+//        TripDetailViewModelFactory(args.tripId)
+//    }
 
     private var map: GoogleMap? = null
     private var isLocationPermissionGranted = false
@@ -81,23 +81,23 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.apply {
-            cbIsBusiness.setOnCheckedChangeListener { _, isChecked ->
-                crimeDetailViewModel.updateTrip { oldTrip ->
-                    oldTrip.copy(isForBusiness = isChecked)
-                }
-            }
-        }
+//        binding.apply {
+//            cbIsBusiness.setOnCheckedChangeListener { _, isChecked ->
+//                tripDetailViewModel.updateTrip { oldTrip ->
+//                    oldTrip.copy(isForBusiness = isChecked)
+//                }
+//            }
+//        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                crimeDetailViewModel.trip.collect { trip ->
-                    trip?.let {
-                        updateUi(it)
-                    }
-                }
-            }
-        }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                tripDetailViewModel.trip.collect { trip ->
+//                    trip?.let {
+//                        updateUi(it)
+//                    }
+//                }
+//            }
+//        }
 
     }
 
