@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.TripsRepository
@@ -29,6 +30,14 @@ class TripDetailViewModel(tripIdDb: UUID) : ViewModel() {
     init {
         viewModelScope.launch {
             _trip.value = tripRepository.getTrip(id = tripIdDb)
+        }
+    }
+
+    fun updateTrip(onUpdate: (Trip) -> Trip) {
+        _trip.update { oldTrip ->
+            oldTrip?.let {
+                onUpdate(it)
+            }
         }
     }
 
