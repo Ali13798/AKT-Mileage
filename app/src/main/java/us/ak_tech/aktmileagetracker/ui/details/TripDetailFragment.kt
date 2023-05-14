@@ -17,12 +17,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.R
+import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentTripDetailsBinding
 
 class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
@@ -71,6 +76,29 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
             .commit()
         mapFragment.getMapAsync(this)
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                crimeDetailViewModel.trip.collect { trip ->
+                    trip?.let {
+                        updateUi(it)
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun updateUi(trip: Trip) {
+        binding.apply {
+            if (text4.text.toString() != trip.id.toString()) {
+                text4.text = trip.id.toString()
+            }
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
