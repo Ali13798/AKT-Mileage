@@ -39,5 +39,14 @@
         app:layout_constraintTop_toBottomOf="@+id/text_notifications"
         tools:text="TEXT" />
 
+    <CheckBox
+        android:id="@+id/cbIsBusiness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cb_is_business"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text4" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
