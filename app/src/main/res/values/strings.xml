@@ -7,4 +7,5 @@
     <string name="description_map_view">Map</string>
     <string name="cb_business_trip">Business trip</string>
     <string name="cb_is_business">Business</string>
+    <string name="btn_new_trip">New Trip</string>
 </resources>
