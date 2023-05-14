@@ -5,6 +5,6 @@ import android.app.Application
 class AktMileageApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-//        TripsRepository.initialize(this)
+        TripsRepository.initialize(this)
     }
 }
