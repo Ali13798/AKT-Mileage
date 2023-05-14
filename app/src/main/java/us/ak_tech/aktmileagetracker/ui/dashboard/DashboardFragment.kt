@@ -13,10 +13,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
+import us.ak_tech.aktmileagetracker.Coordinate
 import us.ak_tech.aktmileagetracker.R
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentDashboardBinding
 import us.ak_tech.aktmileagetracker.ui.details.TripDetailViewModel
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.util.UUID
 
 class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
@@ -68,6 +72,36 @@ class DashboardFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.fragment_dashboard, menu)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.new_trip -> {
+                showNewTrip()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showNewTrip() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val id = UUID.randomUUID()
+            val newTrip = Trip(
+                id,
+                MutableList(1, init = {
+                    Coordinate(id, 0, 7.0, 17.0)
+                }),
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(5),
+                true,
+            )
+            dashboardViewModel.addTrip(newTrip)
+            findNavController().navigate(
+                DashboardFragmentDirections.showCrimeDetails(newTrip.id)
+            )
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
