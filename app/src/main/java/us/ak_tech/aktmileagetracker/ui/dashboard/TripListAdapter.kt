@@ -2,19 +2,19 @@ package us.ak_tech.aktmileagetracker.ui.dashboard
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentTripListItemBinding
 import java.time.Duration
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class TripHolder(
     val binding: FragmentTripListItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(trip: Trip) {
+    fun bind(trip: Trip, onTripClicked: (tripId: UUID) -> Unit) {
         val dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
         val hourFormatter = DateTimeFormatter.ofPattern("HH:mm")
         val startCoordinates = trip.coordinates[0]
@@ -33,18 +33,16 @@ class TripHolder(
         binding.tvStartAddress.text = startAddressText
         binding.tvDestinationAddress.text = destinationAddressText
         binding.tvCategory.text = if (trip.isForBusiness) "Business" else "Personal"
-        binding.root.setOnClickListener {
-            Toast.makeText(
-                binding.root.context,
-                "$tvDateText clicked!",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        binding.root.setOnClickListener { onTripClicked(trip.id) }
     }
 }
 
 
-class TripListAdapter(private val trips: List<Trip>) : RecyclerView.Adapter<TripHolder>() {
+class TripListAdapter(
+    private val trips: List<Trip>,
+    private val onTripClicked: (tripId: UUID) -> Unit
+) :
+    RecyclerView.Adapter<TripHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = FragmentTripListItemBinding.inflate(inflater, parent, false)
@@ -56,7 +54,7 @@ class TripListAdapter(private val trips: List<Trip>) : RecyclerView.Adapter<Trip
     override fun onBindViewHolder(holder: TripHolder, position: Int) {
         val trip = trips[position]
         holder.apply {
-            holder.bind(trip)
+            holder.bind(trip, onTripClicked)
         }
     }
 }
