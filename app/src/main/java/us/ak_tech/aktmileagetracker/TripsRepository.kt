@@ -21,6 +21,9 @@ class TripsRepository private constructor(context: Context) {
     suspend fun getTrips(): List<Trip> = db.tripDao().getTrips()
     suspend fun getTrip(id: UUID): Trip = db.tripDao().getTrip(id)
 
+    suspend fun updateTrip(trip: Trip) {
+        db.tripDao().updateTrip(trip)
+    }
 
     companion object {
         private var INSTANCE: TripsRepository? = null
