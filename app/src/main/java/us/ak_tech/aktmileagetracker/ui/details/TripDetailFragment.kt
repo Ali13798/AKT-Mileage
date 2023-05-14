@@ -81,6 +81,14 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.apply {
+            cbIsBusiness.setOnCheckedChangeListener { _, isChecked ->
+                crimeDetailViewModel.updateTrip { oldTrip ->
+                    oldTrip.copy(isForBusiness = isChecked)
+                }
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 crimeDetailViewModel.trip.collect { trip ->
