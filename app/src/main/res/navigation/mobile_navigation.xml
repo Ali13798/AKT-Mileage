@@ -19,6 +19,9 @@
         <action
             android:id="@+id/show_crime_details"
             app:destination="@id/navigation_notifications" />
+        <action
+            android:id="@+id/select_date"
+            app:destination="@id/datePickerFragment" />
     </fragment>
 
     <fragment
@@ -30,4 +33,12 @@
             android:name="tripId"
             app:argType="java.util.UUID" />
     </fragment>
+    <dialog
+        android:id="@+id/datePickerFragment"
+        android:name="us.ak_tech.aktmileagetracker.DatePickerFragment"
+        android:label="DatePickerFragment">
+        <argument
+            android:name="tripId"
+            app:argType="java.util.UUID" />
+    </dialog>
 </navigation>
