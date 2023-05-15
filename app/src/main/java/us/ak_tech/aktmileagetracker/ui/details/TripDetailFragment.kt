@@ -33,6 +33,7 @@ import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentTripDetailsBinding
 import java.time.LocalDateTime
 import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 const val TAG = "TripDetailFragment"
@@ -106,20 +107,36 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
     }
 
     private fun updateUi(trip: Trip) {
+        val dateFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+        val hourFormatter = DateTimeFormatter.ofPattern("HH:mm")
         binding.apply {
             if (text4.text.toString() != trip.id.toString()) {
                 text4.text = trip.id.toString()
             }
-            btnStartDate.text = trip.startDate.toString()
+            btnStartDate.text = trip.startDate.format(dateFormatter)
             btnStartDate.setOnClickListener {
                 tripDetailViewModel.btnHelperIsStartDatePressed = true
                 findNavController().navigate(
                     TripDetailFragmentDirections.selectDate(trip.startDate)
                 )
             }
-            btnEndDate.text = trip.endDate.toString()
+            btnEndDate.text = trip.endDate.format(dateFormatter)
             btnEndDate.setOnClickListener {
                 tripDetailViewModel.btnHelperIsStartDatePressed = false
+                findNavController().navigate(
+                    TripDetailFragmentDirections.selectDate(trip.endDate)
+                )
+            }
+            btnStartTime.text = trip.startDate.format(hourFormatter)
+            btnStartTime.setOnClickListener {
+                tripDetailViewModel.btnHelperIsStartTimePressed = true
+                findNavController().navigate(
+                    TripDetailFragmentDirections.selectDate(trip.startDate)
+                )
+            }
+            btnEndTime.text = trip.endDate.format(hourFormatter)
+            btnStartTime.setOnClickListener {
+                tripDetailViewModel.btnHelperIsStartTimePressed = false
                 findNavController().navigate(
                     TripDetailFragmentDirections.selectDate(trip.endDate)
                 )

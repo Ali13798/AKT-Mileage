@@ -17,6 +17,7 @@ class TripDetailViewModel(tripId: UUID) : ViewModel() {
     }
     val text: LiveData<String> = _text
     var btnHelperIsStartDatePressed = false
+    var btnHelperIsStartTimePressed = false
 
 
     private val tripRepository = TripsRepository.get()
