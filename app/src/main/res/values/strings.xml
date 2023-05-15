@@ -16,4 +16,5 @@
     <string name="start_trip">Start Trip</string>
     <string name="stop_trip">Stop Trip</string>
     <string name="et_hint">Enter the cents per mile deduction as an integer.</string>
+    <string name="delete_trip">Delete Trip</string>
 </resources>

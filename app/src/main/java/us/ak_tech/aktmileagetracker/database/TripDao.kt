@@ -1,9 +1,6 @@
 package us.ak_tech.aktmileagetracker.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import us.ak_tech.aktmileagetracker.Trip
 import java.util.*
 
@@ -20,4 +17,7 @@ interface TripDao {
 
     @Insert
     suspend fun addTrip(trip: Trip)
+
+    @Query("DELETE FROM Trips WHERE id = :tripId")
+    suspend fun deleteTrip(tripId: UUID)
 }

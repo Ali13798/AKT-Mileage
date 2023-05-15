@@ -39,6 +39,10 @@ class TripDetailViewModel(tripId: UUID) : ViewModel() {
         }
     }
 
+    suspend fun deleteTrip(tripId: UUID) {
+        tripRepository.deleteTrip(tripId)
+    }
+
     fun setText(msg: String) {
         _text.value = msg
     }

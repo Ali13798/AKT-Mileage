@@ -144,6 +144,11 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
                 )
             }
             cbIsBusiness.isChecked = trip.isForBusiness
+            btnDeleteTrip.setOnClickListener {
+                lifecycleScope.launch {
+                    tripDetailViewModel.deleteTrip(trip.id)
+                }
+            }
         }
     }
 
@@ -156,6 +161,11 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
         for (coord in trip.coordinates) {
             coordinates += LatLng(coord.lat, coord.lon)
+            googleMap.addMarker(
+                MarkerOptions()
+                    .position(LatLng(coord.lat, coord.lon))
+                    .title("Marker ${coord.index}")
+            )
         }
 
         googleMap.addMarker(

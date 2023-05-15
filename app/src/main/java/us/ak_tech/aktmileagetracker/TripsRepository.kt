@@ -36,6 +36,10 @@ class TripsRepository private constructor(
         db.tripDao().addTrip(trip)
     }
 
+    suspend fun deleteTrip(tripId: UUID) {
+        db.tripDao().deleteTrip(tripId = tripId)
+    }
+
     companion object {
         private var INSTANCE: TripsRepository? = null
 
