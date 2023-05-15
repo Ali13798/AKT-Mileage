@@ -9,6 +9,7 @@ import java.time.Duration
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class TripHolder(
@@ -32,8 +33,13 @@ class TripHolder(
                 "${trip.startDate.format(dateFormatter)} - ${trip.endDate.format(dateFormatter)}"
         if (trip.endDate.hour < trip.startDate.hour)
             tvDateText = trip.startDate.format(dateFormatter)
-        val startAddressText = "${startCoordinates.lon}, ${startCoordinates.lat}"
-        val destinationAddressText = "${endCoordinates.lon}, ${endCoordinates.lat}"
+        var roundHelper = 1000.0
+        val startAddressText =
+            "${(startCoordinates.lon * roundHelper).roundToInt() / roundHelper}, " +
+                    "${(startCoordinates.lat * roundHelper).roundToInt() / roundHelper}"
+        val destinationAddressText =
+            "${(endCoordinates.lon * roundHelper).roundToInt() / roundHelper}, " +
+                    "${(endCoordinates.lat * roundHelper).roundToInt() / roundHelper}"
         binding.tvDate.text = tvDateText
         binding.tvStartTime.text = trip.startDate.format(hourFormatter)
         binding.tvEndTime.text = trip.endDate.format(hourFormatter)
