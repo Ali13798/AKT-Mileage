@@ -7,7 +7,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
@@ -30,14 +28,15 @@ import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.R
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentTripDetailsBinding
-import us.ak_tech.aktmileagetracker.ui.dashboard.DashboardFragmentDirections
 
 class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var _binding: FragmentTripDetailsBinding? = null
     private val binding get() = _binding!!
 
     private val args: TripDetailFragmentArgs by navArgs()
-    private val tripDetailViewModel: TripDetailViewModel by viewModels()
+    private val tripDetailViewModel: TripDetailViewModel by viewModels {
+        TripDetailViewModelFactory(args.tripId)
+    }
     private var map: GoogleMap? = null
     private var isLocationPermissionGranted = false
 
@@ -51,9 +50,6 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val tripDetailViewModel =
-            ViewModelProvider(this).get(TripDetailViewModel::class.java)
-
         _binding = FragmentTripDetailsBinding.inflate(inflater, container, false)
         val textView: TextView = binding.textNotifications
         tripDetailViewModel.text.observe(viewLifecycleOwner) {
@@ -67,7 +63,6 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
             .commit()
         mapFragment.getMapAsync(this)
 
-        tripDetailViewModel.setTripId(args.tripId)
         return binding.root
     }
 
@@ -100,13 +95,13 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
             btnStartDate.text = trip.startDate.toString()
             btnStartDate.setOnClickListener {
                 findNavController().navigate(
-                    DashboardFragmentDirections.selectDate(trip.startDate)
+                    TripDetailFragmentDirections.selectDate(trip.startDate)
                 )
             }
             btnEndDate.text = trip.endDate.toString()
             btnEndDate.setOnClickListener {
                 findNavController().navigate(
-                    DashboardFragmentDirections.selectDate(trip.endDate)
+                    TripDetailFragmentDirections.selectDate(trip.endDate)
                 )
             }
             cbIsBusiness.isChecked = trip.isForBusiness
