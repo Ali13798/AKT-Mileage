@@ -16,16 +16,21 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import us.ak_tech.aktmileagetracker.Coordinate
+import us.ak_tech.aktmileagetracker.DistanceCalculator
 import us.ak_tech.aktmileagetracker.R
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentHomeBinding
 import us.ak_tech.aktmileagetracker.ui.details.TAG
 import java.time.LocalDateTime
 import java.util.*
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 class HomeFragment : Fragment(), LocationListener {
     private var _binding: FragmentHomeBinding? = null
@@ -49,12 +54,68 @@ class HomeFragment : Fragment(), LocationListener {
             }
         }
 
+        lifecycleScope.launch {
+            homeViewModel.allTrips = homeViewModel.loadTrips()
+        }
+
+
         val textView: TextView = binding.textHome
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                calculate()
+                updateUi()
+            }
+        }
+    }
+
+    private fun updateUi() {
+        binding.apply {
+            val decimalHelper = 100.0
+            totalBusinessMiles.text =
+                "${(homeViewModel.totalMilesDrivenForBusiness * decimalHelper).roundToInt() / decimalHelper} Business Miles"
+            totalPersonalMiles.text =
+                "${(homeViewModel.totalMilesDrivenForPersonal * decimalHelper).roundToInt() / decimalHelper} Personal Miles"
+            tvTotalOverallMiles.text =
+                "${(homeViewModel.totalMilesDriven * decimalHelper).roundToInt() / decimalHelper} Overall Miles"
+        }
+    }
+
+
+    private fun getDistance(start: Coordinate, end: Coordinate): Double {
+        return DistanceCalculator().CalcDistance(start, end)
+    }
+
+    private fun calculate() {
+        homeViewModel.apply {
+            if (allTrips == null || allTrips!!.isEmpty()) return
+            var totalP = 0.0
+            var totalB = 0.0
+            for (trip in allTrips!!) {
+                for (i in 0..trip.coordinates.size) {
+                    if (i < trip.coordinates.size - 1) {
+                        val dist = getDistance(trip.coordinates[i], trip.coordinates[i + 1])
+                        if (trip.isForBusiness) {
+                            totalB += dist
+                        } else {
+                            totalP += dist
+                        }
+                    }
+                }
+            }
+            totalMilesDriven = totalB + totalP
+            totalMilesDrivenForBusiness = totalB
+            totalMilesDrivenForPersonal = totalP
+        }
+    }
+
 
     private fun toggleRecording() {
         if (homeViewModel.isTripRecording)
@@ -93,7 +154,7 @@ class HomeFragment : Fragment(), LocationListener {
         reset()
     }
 
-    fun reset() {
+    private fun reset() {
         homeViewModel.apply {
             tripId = null
             startDate = null

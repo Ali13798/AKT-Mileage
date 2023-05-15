@@ -25,6 +25,11 @@ class HomeViewModel : ViewModel() {
     var endDate: LocalDateTime? = null
     var isBusinessTrip = false
 
+    var allTrips: List<Trip>? = null
+    var totalMilesDrivenForBusiness = 0.0
+    var totalMilesDrivenForPersonal = 0.0
+    var totalMilesDriven = 0.0
+
 
     suspend fun loadTrips(): List<Trip> {
         return tripsRepository.getTrips()

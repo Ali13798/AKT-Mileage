@@ -17,7 +17,7 @@
         android:text="Total Miles" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/tvTotalOverallMiles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceHeadline5"
@@ -28,25 +28,25 @@
 
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/totalPersonalMiles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceHeadline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalOverallMiles"
         android:text="X Personal miles" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/totalBusinessMiles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceHeadline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        app:layout_constraintTop_toBottomOf="@+id/totalPersonalMiles"
         android:text="X work miles" />
 
     <TextView
@@ -81,7 +81,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:hint="@string/et_hint"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/totalBusinessMiles" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
