@@ -138,7 +138,7 @@ class HomeFragment : Fragment(), LocationListener {
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2
             )
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 5f, this)
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1f, this)
     }
 
 

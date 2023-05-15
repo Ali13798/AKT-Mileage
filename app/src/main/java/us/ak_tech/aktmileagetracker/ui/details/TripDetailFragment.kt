@@ -26,7 +26,9 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import kotlinx.coroutines.launch
+import us.ak_tech.aktmileagetracker.Coordinate
 import us.ak_tech.aktmileagetracker.DatePickerFragment
 import us.ak_tech.aktmileagetracker.R
 import us.ak_tech.aktmileagetracker.Trip
@@ -147,6 +149,36 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+
+        val coordinates = mutableListOf<LatLng>()
+        var lastCoord: LatLng
+        val trip = tripDetailViewModel.trip.value ?: return
+
+        for (coord in trip.coordinates) {
+            coordinates += LatLng(coord.lat, coord.lon)
+        }
+
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(LatLng(coordinates.first().latitude, coordinates.first().longitude))
+                .title("Start")
+        )
+
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(LatLng(coordinates.last().latitude, coordinates.last().longitude))
+                .title("End")
+        )
+
+        map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates.last(), 15.0f))
+
+
+        val polyline1 = googleMap.addPolyline(
+            PolylineOptions()
+                .clickable(true)
+                .addAll(coordinates)
+        )
+
     }
 
     private fun getLocationPermission() {
