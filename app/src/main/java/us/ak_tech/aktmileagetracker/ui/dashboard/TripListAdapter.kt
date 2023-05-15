@@ -32,8 +32,8 @@ class TripHolder(
                 "${trip.startDate.format(dateFormatter)} - ${trip.endDate.format(dateFormatter)}"
         if (trip.endDate.hour < trip.startDate.hour)
             tvDateText = trip.startDate.format(dateFormatter)
-        val startAddressText = "${startCoordinates.x}, ${startCoordinates.y}"
-        val destinationAddressText = "${endCoordinates.x}, ${endCoordinates.y}"
+        val startAddressText = "${startCoordinates.lon}, ${startCoordinates.lat}"
+        val destinationAddressText = "${endCoordinates.lon}, ${endCoordinates.lat}"
         binding.tvDate.text = tvDateText
         binding.tvStartTime.text = trip.startDate.format(hourFormatter)
         binding.tvEndTime.text = trip.endDate.format(hourFormatter)
