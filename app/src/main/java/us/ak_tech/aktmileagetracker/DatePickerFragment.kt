@@ -26,12 +26,10 @@ class DatePickerFragment : DialogFragment() {
                 )
             }
         val calendar = Calendar.getInstance()
+        calendar.time = Date(args.tripDate.toEpochSecond(ZoneOffset.UTC) * 1000)
         val initialYear = calendar.get(Calendar.YEAR)
         val initialMonth = calendar.get(Calendar.MONTH)
         val initialDay = calendar.get(Calendar.DAY_OF_MONTH)
-        val hours = calendar.get(Calendar.HOUR)
-        val minutes = calendar.get(Calendar.MINUTE)
-        calendar.time = Date(args.tripDate.toEpochSecond(ZoneOffset.UTC) * 1000)
         return DatePickerDialog(
             requireContext(),
             dateListener,

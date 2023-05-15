@@ -22,9 +22,10 @@ class TripHolder(
         val endCoordinates = trip.coordinates[trip.coordinates.size - 1]
         val duration = Duration.between(trip.startDate, trip.endDate)
         var tvDateText =
-            if (duration.toMinutes() < 24.0 * 60 &&
+            if (duration.toHours() < 24.0 &&
                 trip.endDate.toEpochSecond(ZoneOffset.UTC) >
-                trip.startDate.toEpochSecond(ZoneOffset.UTC)
+                trip.startDate.toEpochSecond(ZoneOffset.UTC) ||
+                trip.endDate.toEpochSecond(ZoneOffset.UTC) - trip.startDate.toEpochSecond(ZoneOffset.UTC) < 60
             )
                 trip.startDate.format(dateFormatter)
             else
