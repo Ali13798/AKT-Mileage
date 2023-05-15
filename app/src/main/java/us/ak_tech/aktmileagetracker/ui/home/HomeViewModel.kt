@@ -29,6 +29,7 @@ class HomeViewModel : ViewModel() {
     var totalMilesDrivenForBusiness = 0.0
     var totalMilesDrivenForPersonal = 0.0
     var totalMilesDriven = 0.0
+    var centsPerMile = 58.5
 
 
     suspend fun loadTrips(): List<Trip> {

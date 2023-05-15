@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -84,9 +85,20 @@ class HomeFragment : Fragment(), LocationListener {
                 "${(homeViewModel.totalMilesDrivenForPersonal * decimalHelper).roundToInt() / decimalHelper} Personal Miles"
             tvTotalOverallMiles.text =
                 "${(homeViewModel.totalMilesDriven * decimalHelper).roundToInt() / decimalHelper} Overall Miles"
+
+            etMilesCost.setText(homeViewModel.centsPerMile.toString())
+            etMilesCost.doOnTextChanged { text, _, _, _ ->
+                try {
+                    homeViewModel.centsPerMile = text.toString().toDouble()
+                } catch (e: java.lang.Exception) {
+                }
+            }
+            val amount =
+                (homeViewModel.totalMilesDrivenForBusiness * homeViewModel.centsPerMile * 100.0).roundToInt() / 100.0
+            tvDeductions.text = "\$${(amount).roundToInt() / 100.0}"
         }
     }
-    
+
     private fun calculate() {
         homeViewModel.apply {
             if (allTrips == null || allTrips!!.isEmpty()) return
