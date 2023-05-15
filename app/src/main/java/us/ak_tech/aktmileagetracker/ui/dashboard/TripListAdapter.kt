@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentTripListItemBinding
 import java.time.Duration
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -20,11 +21,16 @@ class TripHolder(
         val startCoordinates = trip.coordinates[0]
         val endCoordinates = trip.coordinates[trip.coordinates.size - 1]
         val duration = Duration.between(trip.startDate, trip.endDate)
-        val tvDateText =
-            if (duration.toHours() < 24.0 && trip.endDate.hour > trip.startDate.hour)
+        var tvDateText =
+            if (duration.toMinutes() < 24.0 * 60 &&
+                trip.endDate.toEpochSecond(ZoneOffset.UTC) >
+                trip.startDate.toEpochSecond(ZoneOffset.UTC)
+            )
                 trip.startDate.format(dateFormatter)
             else
                 "${trip.startDate.format(dateFormatter)} - ${trip.endDate.format(dateFormatter)}"
+        if (trip.endDate.hour < trip.startDate.hour)
+            tvDateText = trip.startDate.format(dateFormatter)
         val startAddressText = "${startCoordinates.x}, ${startCoordinates.y}"
         val destinationAddressText = "${endCoordinates.x}, ${endCoordinates.y}"
         binding.tvDate.text = tvDateText
