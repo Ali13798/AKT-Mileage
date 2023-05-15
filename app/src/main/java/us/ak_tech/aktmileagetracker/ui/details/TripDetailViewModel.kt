@@ -16,6 +16,7 @@ class TripDetailViewModel(tripId: UUID) : ViewModel() {
         value = "This is notifications Fragment"
     }
     val text: LiveData<String> = _text
+    var btnHelperIsStartDatePressed = false
 
 
     private val tripRepository = TripsRepository.get()

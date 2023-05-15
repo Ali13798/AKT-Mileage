@@ -7,6 +7,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -25,9 +27,15 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.launch
+import us.ak_tech.aktmileagetracker.DatePickerFragment
 import us.ak_tech.aktmileagetracker.R
 import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentTripDetailsBinding
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.util.*
+
+const val TAG = "TripDetailFragment"
 
 class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var _binding: FragmentTripDetailsBinding? = null
@@ -85,6 +93,16 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
                 }
             }
         }
+        setFragmentResultListener(DatePickerFragment.REQUEST_KEY_DATE) { _, bundle ->
+            val newDate = bundle.getSerializable(DatePickerFragment.BUNDLE_KEY_DATE) as Date
+            tripDetailViewModel.updateTrip {
+                val time = LocalDateTime.ofEpochSecond(newDate.time / 1000, 0, ZoneOffset.UTC)
+                if (tripDetailViewModel.btnHelperIsStartDatePressed)
+                    it.copy(startDate = time)
+                else
+                    it.copy(endDate = time)
+            }
+        }
     }
 
     private fun updateUi(trip: Trip) {
@@ -94,12 +112,14 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
             }
             btnStartDate.text = trip.startDate.toString()
             btnStartDate.setOnClickListener {
+                tripDetailViewModel.btnHelperIsStartDatePressed = true
                 findNavController().navigate(
                     TripDetailFragmentDirections.selectDate(trip.startDate)
                 )
             }
             btnEndDate.text = trip.endDate.toString()
             btnEndDate.setOnClickListener {
+                tripDetailViewModel.btnHelperIsStartDatePressed = false
                 findNavController().navigate(
                     TripDetailFragmentDirections.selectDate(trip.endDate)
                 )
