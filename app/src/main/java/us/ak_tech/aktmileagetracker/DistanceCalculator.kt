@@ -73,4 +73,15 @@ class DistanceCalculator {
             )
         )
     }
+
+    fun calcDistChain(coordinates: MutableList<Coordinate>): Double {
+        var total = 0.0
+        for (i in 0..coordinates.size) {
+            if (i < coordinates.size - 1) {
+                val dist = CalcDistance(coordinates[i], coordinates[i + 1])
+                total += dist
+            }
+        }
+        return total
+    }
 }

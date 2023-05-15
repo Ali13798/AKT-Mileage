@@ -30,7 +30,6 @@ import us.ak_tech.aktmileagetracker.ui.details.TAG
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
 class HomeFragment : Fragment(), LocationListener {
     private var _binding: FragmentHomeBinding? = null
@@ -87,27 +86,17 @@ class HomeFragment : Fragment(), LocationListener {
                 "${(homeViewModel.totalMilesDriven * decimalHelper).roundToInt() / decimalHelper} Overall Miles"
         }
     }
-
-
-    private fun getDistance(start: Coordinate, end: Coordinate): Double {
-        return DistanceCalculator().CalcDistance(start, end)
-    }
-
+    
     private fun calculate() {
         homeViewModel.apply {
             if (allTrips == null || allTrips!!.isEmpty()) return
             var totalP = 0.0
             var totalB = 0.0
             for (trip in allTrips!!) {
-                for (i in 0..trip.coordinates.size) {
-                    if (i < trip.coordinates.size - 1) {
-                        val dist = getDistance(trip.coordinates[i], trip.coordinates[i + 1])
-                        if (trip.isForBusiness) {
-                            totalB += dist
-                        } else {
-                            totalP += dist
-                        }
-                    }
+                if (trip.isForBusiness) {
+                    totalB += DistanceCalculator().calcDistChain(trip.coordinates)
+                } else {
+                    totalP += DistanceCalculator().calcDistChain(trip.coordinates)
                 }
             }
             totalMilesDriven = totalB + totalP

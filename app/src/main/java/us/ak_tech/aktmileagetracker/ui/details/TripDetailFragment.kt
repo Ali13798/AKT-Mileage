@@ -28,15 +28,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import kotlinx.coroutines.launch
-import us.ak_tech.aktmileagetracker.Coordinate
-import us.ak_tech.aktmileagetracker.DatePickerFragment
+import us.ak_tech.aktmileagetracker.*
 import us.ak_tech.aktmileagetracker.R
-import us.ak_tech.aktmileagetracker.Trip
 import us.ak_tech.aktmileagetracker.databinding.FragmentTripDetailsBinding
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.math.roundToInt
 
 const val TAG = "TripDetailFragment"
 
@@ -149,6 +148,8 @@ class TripDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
                     tripDetailViewModel.deleteTrip(trip.id)
                 }
             }
+            val dist = DistanceCalculator().calcDistChain(trip.coordinates)
+            tvMilesDriven.text = "${(dist * 100.0).roundToInt() / 100.0} Miles"
         }
     }
 

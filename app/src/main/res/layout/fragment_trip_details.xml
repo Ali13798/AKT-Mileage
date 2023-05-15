@@ -97,8 +97,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cb_is_business"
+            android:layout_marginEnd="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnDeleteTrip"
             app:layout_constraintTop_toBottomOf="@+id/btnEndTime" />
 
 
@@ -136,19 +136,29 @@
             android:id="@+id/btnEndTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="End Time"
             android:layout_marginStart="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvEndTime"
-            app:layout_constraintTop_toBottomOf="@+id/btnStartTime" />
+            app:layout_constraintTop_toBottomOf="@+id/btnStartTime"
+            tools:text="End Time" />
 
         <Button
             android:id="@+id/btnDeleteTrip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete_trip"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnEndTime" />
+
+        <TextView
+            android:id="@+id/tvMilesDriven"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            app:layout_constraintBottom_toBottomOf="@+id/cbIsBusiness"
+            app:layout_constraintEnd_toStartOf="@+id/cbIsBusiness"
+            app:layout_constraintStart_toEndOf="@+id/btnDeleteTrip"
             app:layout_constraintTop_toBottomOf="@+id/btnEndTime" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
